@@ -22,6 +22,12 @@ func (d Dictionary) Search(word string) (string, error) {
 	return definition, nil
 }
 
+func (d Dictionary) Delete(word string) error {
+	delete(d, word)
+	return nil
+
+}
+
 func (d Dictionary) Add(word, definition string) error {
 	_, err := d.Search(word)
 
