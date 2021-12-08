@@ -1,7 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"bytes"
+	"fmt"
+)
 
-func Greet(name string) {
-	fmt.Printf("Hello, %s", name)
+func Greet(writer *bytes.Buffer, name string) {
+	fmt.Fprintf(writer, "Hello, %s", name)
 }
