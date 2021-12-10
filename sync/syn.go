@@ -7,10 +7,15 @@ type Counter struct {
 	value int
 }
 
+// NewCounter returns a new Counter.
+func NewCounter() *Counter {
+	return &Counter{}
+}
+
 func (c *Counter) Inc() {
 	c.mu.Lock()
+	defer c.mu.Unlock()
 	c.value++
-	c.mu.Unlock()
 }
 
 func (c *Counter) Value() int {
