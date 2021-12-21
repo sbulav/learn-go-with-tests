@@ -9,9 +9,9 @@ type romanNumeral struct {
 	Symbol string
 }
 
-type romanNumerals []romanNumeral
+type RomanNumerals []romanNumeral
 
-var allRomanNumerals = romanNumerals{
+var allRomanNumerals = RomanNumerals{
 	{1000, "M"},
 	{900, "CM"},
 	{500, "D"},
@@ -40,7 +40,9 @@ func ConvertToRoman(arabic int) string {
 	return result.String()
 }
 
-func (r romanNumerals) ValueOf(symbol string) int {
+func (r RomanNumerals) ValueOf(symbols ...byte) int {
+	symbol := string(symbols)
+	fmt.Println("Symbol = ", symbol)
 	for _, s := range r {
 		if s.Symbol == symbol {
 			return s.Value
@@ -53,31 +55,26 @@ func (r romanNumerals) ValueOf(symbol string) int {
 func ConvertToArabic(roman string) int {
 	total := 0
 
-	fmt.Println("------------------")
-	fmt.Println("Converting to arabic", roman)
 	for i := 0; i < len(roman); i++ {
 		symbol := roman[i]
 
-		// look ahead to next symbol if we can and, the current symbol is base 10 (only valid subtractors)
 		if couldBeSubtractive(i, symbol, roman) {
-			nextSymbol := roman[i+1]
+			if value := allRomanNumerals.ValueOf(symbol, roman[i+1]); value != 0 {
 
-			// build the two character string
-			potentialNumber := string([]byte{symbol, nextSymbol})
-
-			if value := allRomanNumerals.ValueOf(potentialNumber); value != 0 {
+				fmt.Println("Symbol Value= ", value)
 				total += value
 				i++ // move past this character too for the next loop
 			} else {
-				total++ // this is fishy...
+				total += allRomanNumerals.ValueOf(symbol)
 			}
 		} else {
-			total += allRomanNumerals.ValueOf(string([]byte{symbol}))
+			total += allRomanNumerals.ValueOf(symbol)
 		}
-		fmt.Println("Total", total)
 	}
 	return total
 }
+
 func couldBeSubtractive(index int, currentSymbol uint8, roman string) bool {
-	return index+1 < len(roman) && currentSymbol == 'I'
+	isSubtractiveSymbol := currentSymbol == 'I' || currentSymbol == 'X' || currentSymbol == 'C'
+	return index+1 < len(roman) && isSubtractiveSymbol
 }
