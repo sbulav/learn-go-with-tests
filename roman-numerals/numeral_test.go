@@ -1,11 +1,13 @@
 package numerals
 
-import "testing"
 import "fmt"
+import "testing"
+import "testing/quick"
 
 var cases = []struct {
-	Arabic int
-	Roman  string
+	Arabic uint16
+
+	Roman string
 }{
 	{Arabic: 1, Roman: "I"},
 	{Arabic: 2, Roman: "II"},
@@ -57,5 +59,23 @@ func TestConvertToArabic(t *testing.T) {
 				t.Errorf("got %d, want %d", got, test.Arabic)
 			}
 		})
+	}
+}
+func TestPropertiesOfConversion(t *testing.T) {
+	assertion := func(arabic uint16) bool {
+		if arabic < 0 || arabic > 3999 {
+			fmt.Println(arabic)
+			t.Log(arabic)
+			return true
+		}
+		roman := ConvertToRoman(arabic)
+		fromRoman := ConvertToArabic(roman)
+		return fromRoman == arabic
+	}
+
+	if err := quick.Check(assertion, &quick.Config{
+		MaxCount: 1000,
+	}); err != nil {
+		t.Error("failed checks", err)
 	}
 }
