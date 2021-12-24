@@ -1,30 +1,37 @@
 package clockface_test
 
 import (
-	// "clockface"
 	"github.com/sbulav/learn-go-with-tests/math/clockface"
+	"strings"
 	// "github.com/quii/learn-go-with-tests/math/v5/clockface"
 	"testing"
 	"time"
 )
 
-func TestSecondHandAtMidnight(t *testing.T) {
+func TestSVGWriterAtMidnight(t *testing.T) {
 	tm := time.Date(1337, time.January, 1, 0, 0, 0, 0, time.UTC)
 
-	want := clockface.Point{X: 150, Y: 150 - 90}
-	got := clockface.SecondHand(tm)
+	var b strings.Builder
+	clockface.SVGWriter(&b, tm)
+	got := b.String()
 
-	if got != want {
-		t.Errorf("Got %v, wanted %v", got, want)
+	want := `<line x1="150" y1="150" x2="150.000" y2="60.000"`
+
+	if !strings.Contains(got, want) {
+		t.Errorf("Expected to find the second hand %v, in the SVG output %v", want, got)
 	}
 }
-func TestSecondHandAt30Seconds(t *testing.T) {
+
+func TestSVGWriterAt30Seconds(t *testing.T) {
 	tm := time.Date(1337, time.January, 1, 0, 0, 30, 0, time.UTC)
 
-	want := clockface.Point{X: 150, Y: 150 + 90}
-	got := clockface.SecondHand(tm)
+	var b strings.Builder
+	clockface.SVGWriter(&b, tm)
+	got := b.String()
 
-	if got != want {
-		t.Errorf("Got %v, wanted %v", got, want)
+	want := `<line x1="150" y1="150" x2="150.000" y2="240.000"`
+
+	if !strings.Contains(got, want) {
+		t.Errorf("Expected to find the second hand %v, in the SVG output %v", want, got)
 	}
 }
