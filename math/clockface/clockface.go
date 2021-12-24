@@ -36,8 +36,14 @@ func minutesInRadians(t time.Time) float64 {
 		(math.Pi / (30 / float64(t.Minute())))
 }
 
+func hoursInRadians(t time.Time) float64 {
+	return (minutesInRadians(t) / 12) +
+		(math.Pi / (6 / float64(t.Hour()%12)))
+}
+
 const secondHandLength = 90
 const minuteHandLength = 80
+const hourHandLength = 70
 const clockCentreX = 150
 const clockCentreY = 150
 
