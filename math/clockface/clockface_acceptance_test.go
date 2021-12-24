@@ -2,9 +2,8 @@ package clockface_test
 
 import (
 	// "clockface"
-	// "github.com/quii/learn-go-with-tests/math/v1/clockface"
-	// "github.com/sbulav/learn-go-with-tests/clockface"
-	"github.com/quii/learn-go-with-tests/math/v5/clockface"
+	"github.com/sbulav/learn-go-with-tests/math/clockface"
+	// "github.com/quii/learn-go-with-tests/math/v5/clockface"
 	"testing"
 	"time"
 )

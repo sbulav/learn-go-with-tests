@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/sbulav/learn-go-with-tests/clockface"
+	"github.com/sbulav/learn-go-with-tests/math/clockface"
 )
 
 func main() {
